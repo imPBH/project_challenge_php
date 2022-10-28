@@ -1,11 +1,5 @@
 <?php
 
-require "Sender/Sender.php";
-require "Services/IService.php";
-require "Services/Discord.php";
-require "Services/Slack.php";
-require "Services/Telegram.php";
-
 /**
  * Plugin Name: Admin Notifications
  * Plugin URI: https://github.com/imPBH/project_challenge_php
@@ -14,6 +8,13 @@ require "Services/Telegram.php";
  * Author: Alexis Provo
  * Author URI: https://github.com/imPBH
  **/
+
+require "Sender/Sender.php";
+require "Services/IService.php";
+require "Services/Discord.php";
+require "Services/Slack.php";
+require "Services/Telegram.php";
+
 class AdminNotificationsPlugin
 {
     private $sender;
@@ -129,8 +130,6 @@ class AdminNotificationsPlugin
 
         printf('<input name="%1$s" id="%1$s" type="%2$s" placeholder="%3$s" value="%4$s" />', $arguments['uid'], $arguments['type'], $arguments['placeholder'], $value);
     }
-
-
 }
 
 new AdminNotificationsPlugin();
