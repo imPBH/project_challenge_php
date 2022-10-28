@@ -4,11 +4,13 @@ class Sender
 {
     private $discord;
     private $slack;
+    private $telegram;
 
     public function __construct()
     {
         $this->discord = new Discord();
         $this->slack = new Slack();
+        $this->telegram = new Telegram();
     }
 
     public static function Send($data, $url)
@@ -42,5 +44,6 @@ class Sender
 
         $this->discord->NewComment($comment, $postUrl, $postTitle, $author, $timestamp);
         $this->slack->NewComment($comment, $postUrl, $postTitle, $author, $timestampSlack);
+        $this->telegram->NewComment($comment, $postUrl, $postTitle, $author, $timestamp);
     }
 }
