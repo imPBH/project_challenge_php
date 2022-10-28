@@ -9,7 +9,6 @@ class Discord implements IService
     {
         $this->webhookUrl = get_option('discord_url');
         $this->site = get_site_url();
-
     }
 
     public function NewComment($comment, $postUrl, $postTitle, $author, $timestamp)

@@ -3,6 +3,7 @@
 require "Sender/Sender.php";
 require "Services/IService.php";
 require "Services/Discord.php";
+require "Services/Slack.php";
 
 /**
  * Plugin Name: Admin Notifications

@@ -3,10 +3,12 @@
 class Sender
 {
     private $discord;
+    private $slack;
 
     public function __construct()
     {
         $this->discord = new Discord();
+        $this->slack = new Slack();
     }
 
     public static function Send($data, $url)
@@ -31,6 +33,7 @@ class Sender
         $post = get_post($postID);
         $postTitle = $post->post_title;
         $timestamp = date("c", strtotime("now"));
+        $timestampSlack = time();
         $author = $comment->comment_author;
 
         if ($author == "") {
@@ -38,5 +41,6 @@ class Sender
         }
 
         $this->discord->NewComment($comment, $postUrl, $postTitle, $author, $timestamp);
+        $this->slack->NewComment($comment, $postUrl, $postTitle, $author, $timestampSlack);
     }
 }
