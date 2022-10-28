@@ -3,6 +3,7 @@
 require "Sender/Sender.php";
 require "Services/IService.php";
 require "Services/Discord.php";
+require "Services/Telegram.php";
 
 /**
  * Plugin Name: Admin Notifications
@@ -86,6 +87,14 @@ class AdminNotificationsPlugin
                 'type' => 'text',
                 'options' => false,
                 'placeholder' => 'https://discord.com/api/webhooks/...',
+            ),
+            array(
+                'uid' => 'telegram_bot_key',
+                'label' => 'Telegram Bot Key',
+                'section' => 'telegram_section',
+                'type' => 'text',
+                'options' => false,
+                'placeholder' => '123456789...',
             ),
             array(
                 'uid' => 'telegram_channel_id',
