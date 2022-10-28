@@ -49,6 +49,18 @@ class Sender
 
     public function CommentStatusUpdate($new_status, $old_status, $comment)
     {
+        $postID = $comment->comment_post_ID;
+        $postUrl = get_post_permalink($postID);
+        $post = get_post($postID);
+        $postTitle = $post->post_title;
+        $timestamp = date("c", strtotime("now"));
+        $timestampSlack = time();
+        $author = $comment->comment_author;
 
+        if ($author == "") {
+            $author = "Anonymous user";
+        }
+
+        $this->discord->CommentStatusUpdate($comment, $postUrl, $postTitle, $author, $old_status, $new_status, $timestamp);
     }
 }
