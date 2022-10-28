@@ -61,7 +61,7 @@ class Discord implements IService
         Sender::Send($json_data, $this->webhookUrl);
     }
 
-    public function CommentStatusUpdate($comment, $oldStatus, $newStatus, $timestamp)
+    public function CommentStatusUpdate($comment, $postUrl, $postTitle, $author, $oldStatus, $newStatus, $timestamp)
     {
         // TODO: Implement CommentStatusUpdate() method.
     }
