@@ -33,11 +33,17 @@ class Discord implements IService
                     "fields" => [
                         [
                             "name" => "Author :",
-                            "value" => $author
+                            "value" => $author,
+                            "inline" => true
                         ],
                         [
                             "name" => "Comment :",
-                            "value" => $comment->comment_content
+                            "value" => $comment->comment_content,
+                            "inline" => true
+                        ],
+                        [
+                            "name" => "‎",
+                            "value" => "‎"
                         ],
                         [
                             "name" => "Approve",
