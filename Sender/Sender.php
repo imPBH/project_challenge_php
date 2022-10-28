@@ -62,5 +62,6 @@ class Sender
         }
 
         $this->discord->CommentStatusUpdate($comment, $postUrl, $postTitle, $author, $old_status, $new_status, $timestamp);
+        $this->slack->CommentStatusUpdate($comment, $postUrl, $postTitle, $author, $old_status, $new_status, $timestampSlack);
     }
 }
