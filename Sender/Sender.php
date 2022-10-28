@@ -3,10 +3,12 @@
 class Sender
 {
     private $discord;
+    private $telegram;
 
     public function __construct()
     {
         $this->discord = new Discord();
+        $this->telegram = new Telegram();
     }
 
     public static function Send($data, $url)
@@ -38,5 +40,6 @@ class Sender
         }
 
         $this->discord->NewComment($comment, $postUrl, $postTitle, $author, $timestamp);
+        $this->telegram->NewComment($comment, $postUrl, $postTitle, $author, $timestamp);
     }
 }
