@@ -1,5 +1,9 @@
 <?php
 
+require "Sender/Sender.php";
+require "Services/IService.php";
+require "Services/Discord.php";
+
 /**
  * Plugin Name: Admin Notifications
  * Plugin URI: https://github.com/imPBH/project_challenge_php
@@ -8,15 +12,18 @@
  * Author: Alexis Provo
  * Author URI: https://github.com/imPBH
  **/
-
 class AdminNotificationsPlugin
 {
+    private $sender;
+
     public function __construct()
     {
+        $this->sender = new Sender();
         // Hook into the admin menu
         add_action('admin_menu', array($this, 'create_plugin_settings_page'));
         add_action('admin_init', array($this, 'setup_sections'));
         add_action('admin_init', array($this, 'setup_fields'));
+        add_action('comment_post', array($this->sender, 'NewComment'), 10, 1);
     }
 
     public function create_plugin_settings_page()
@@ -112,6 +119,8 @@ class AdminNotificationsPlugin
 
         printf('<input name="%1$s" id="%1$s" type="%2$s" placeholder="%3$s" value="%4$s" />', $arguments['uid'], $arguments['type'], $arguments['placeholder'], $value);
     }
+
+
 }
 
 new AdminNotificationsPlugin();
