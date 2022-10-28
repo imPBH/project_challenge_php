@@ -46,4 +46,8 @@ class Sender
         $this->slack->NewComment($comment, $postUrl, $postTitle, $author, $timestampSlack);
         $this->telegram->NewComment($comment, $postUrl, $postTitle, $author, $timestamp);
     }
+
+    public function CommentStatusUpdate($new_status, $old_status, $comment)
+    {
+    }
 }

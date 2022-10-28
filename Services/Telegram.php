@@ -43,4 +43,9 @@ class Telegram implements IService
         ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         Sender::Send($json_data, $this->webhookUrl);
     }
+
+    public function CommentStatusUpdate($comment, $oldStatus, $newStatus, $timestamp)
+    {
+        // TODO: Implement CommentStatusUpdate() method.
+    }
 }
