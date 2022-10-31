@@ -65,4 +65,41 @@ class Sender
         $this->slack->CommentStatusUpdate($comment, $postUrl, $postTitle, $author, $old_status, $new_status, $timestampSlack);
         $this->telegram->CommentStatusUpdate($comment, $postUrl, $postTitle, $author, $old_status, $new_status, $timestamp);
     }
+
+    public function PostUpdate($newStatus, $oldStatus, $post)
+    {
+        $postID = $post->ID;
+        $postUrl = get_post_permalink($postID);
+        $postTitle = $post->post_title;
+        $postAuthorID = $post->post_author;
+        $postAuthor = get_user_by("id", $postAuthorID);
+        $postAuthorName = $postAuthor->display_name;
+        $timestamp = date("c", strtotime("now"));
+
+        $title = "";
+        $color = "";
+        switch ($newStatus) {
+            case "publish":
+                switch ($oldStatus) {
+                    case "auto-draft":
+                        $title = ":rotating_light: New post detected ! :rotating_light:";
+                        $color = hexdec("7CFC00");
+                        break;
+                    case "publish":
+                        $title = ":pencil: Update detected on a post ! :pencil:";
+                        $color = hexdec("FF8C00");
+                        break;
+                }
+                break;
+            case "trash":
+                $title = ":wastebasket: Post trashed ! :wastebasket:";
+                $color = hexdec("FF0000");
+                break;
+            case "draft":
+                $title = ":grey_question: New post in draft ! :grey_question:";
+                $color = hexdec("FF8C00");
+                break;
+        }
+        $this->discord->PostUpdate($title, $color, $post, $postID, $postUrl, $postTitle, $postAuthorName, $timestamp);
+    }
 }

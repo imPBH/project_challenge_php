@@ -161,4 +161,35 @@ class Discord implements IService
         ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         Sender::Send($json_data, $this->webhookUrl);
     }
+
+    public function PostUpdate($title, $color, $post, $postID, $postUrl, $postTitle, $author, $timestamp)
+    {
+        $json_data = json_encode([
+            "username" => "WP Admin Notifications",
+            "embeds" => [
+                [
+                    "title" => $title,
+                    "type" => "rich",
+                    "url" => $postUrl,
+                    "timestamp" => $timestamp,
+                    "color" => $color,
+                    "footer" => [
+                        "text" => "WP Admin Notifications",
+                        "icon_url" => "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/WordPress_blue_logo.svg/1200px-WordPress_blue_logo.svg.png"
+                    ],
+                    "author" => [
+                        "name" => $postTitle,
+                        "url" => $postUrl
+                    ],
+                    "fields" => [
+                        [
+                            "name" => "Author :",
+                            "value" => $author
+                        ]
+                    ]
+                ]
+            ]
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        Sender::Send($json_data, $this->webhookUrl);
+    }
 }

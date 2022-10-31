@@ -90,4 +90,9 @@ class Telegram implements IService
         ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         Sender::Send($json_data, $this->webhookUrl);
     }
+
+    public function PostUpdate($title, $color, $post, $postID, $postUrl, $postTitle, $author, $timestamp)
+    {
+        // TODO: Implement PostUpdate() method.
+    }
 }

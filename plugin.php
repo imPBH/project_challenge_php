@@ -28,6 +28,7 @@ class AdminNotificationsPlugin
         add_action('admin_init', array($this, 'setup_fields'));
         add_action('comment_post', array($this->sender, 'NewComment'), 10, 1);
         add_action('transition_comment_status', array($this->sender, 'CommentStatusUpdate'), 10, 3);
+        add_action('transition_post_status', array($this->sender, 'PostUpdate'), 10, 3);
     }
 
     public function create_plugin_settings_page()
