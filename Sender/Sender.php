@@ -78,30 +78,39 @@ class Sender
         $timestampSlack = time();
 
         $title = "";
+        $titleTelegram = "";
         $color = "";
         switch ($newStatus) {
             case "publish":
                 switch ($oldStatus) {
                     case "auto-draft":
                         $title = ":rotating_light: New post detected ! :rotating_light:";
+                        $titleTelegram = "\xF0\x9F\x9A\xA8 New post detected ! \xF0\x9F\x9A\xA8";
                         $color = hexdec("7CFC00");
                         break;
                     case "publish":
                         $title = ":pencil: Update detected on a post ! :pencil:";
+                        $titleTelegram = "\xF0\x9F\x93\x9D Update detected on a post ! \xF0\x9F\x93\x9D";
                         $color = hexdec("FF8C00");
                         break;
                 }
                 break;
             case "trash":
                 $title = ":wastebasket: Post trashed ! :wastebasket:";
+                $titleTelegram = "\xF0\x9F\x97\x91 Post trashed ! \xF0\x9F\x97\x91";
                 $color = hexdec("FF0000");
                 break;
             case "draft":
                 $title = ":grey_question: New post in draft ! :grey_question:";
+                $titleTelegram = "\xE2\x9D\x94 New post in draft ! \xE2\x9D\x94";
                 $color = hexdec("FF8C00");
                 break;
         }
-        $this->discord->PostUpdate($title, $color, $post, $postID, $postUrl, $postTitle, $postAuthorName, $timestamp);
-        $this->slack->PostUpdate($title, $color, $post, $postID, $postUrl, $postTitle, $postAuthorName, $timestampSlack);
+        if ($title != "" && $titleTelegram != "")
+        {
+            $this->discord->PostUpdate($title, $color, $post, $postID, $postUrl, $postTitle, $postAuthorName, $timestamp);
+            $this->slack->PostUpdate($title, $color, $post, $postID, $postUrl, $postTitle, $postAuthorName, $timestampSlack);
+            $this->telegram->PostUpdate($titleTelegram, $color, $post, $postID, $postUrl, $postTitle, $postAuthorName, $timestamp);
+        }
     }
 }
