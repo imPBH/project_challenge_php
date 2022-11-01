@@ -84,6 +84,7 @@ class Sender
             case "publish":
                 switch ($oldStatus) {
                     case "auto-draft":
+                    case "draft":
                         $title = ":rotating_light: New post detected ! :rotating_light:";
                         $titleTelegram = "\xF0\x9F\x9A\xA8 New post detected ! \xF0\x9F\x9A\xA8";
                         $color = hexdec("7CFC00");
