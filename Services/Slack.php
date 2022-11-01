@@ -275,6 +275,66 @@ class Slack implements IService
 
     public function PostUpdate($title, $color, $post, $postID, $postUrl, $postTitle, $author, $timestamp)
     {
-        // TODO: Implement PostUpdate() method.
+        $json_data = json_encode([
+            "blocks" => [
+                [
+                    "type" => "header",
+                    "text" => [
+                        "type" => "plain_text",
+                        "text" => $title
+                    ]
+                ],
+                [
+                    "type" => "divider"
+                ],
+                [
+                    "type" => "section",
+                    "text" => [
+                        "type" => "mrkdwn",
+                        "text" => "*Post :*"
+                    ]
+                ],
+                [
+                    "type" => "section",
+                    "text" => [
+                        "type" => "mrkdwn",
+                        "text" => "<$postUrl|$postTitle>"
+                    ]
+                ],
+                [
+                    "type" => "section",
+                    "text" => [
+                        "type" => "mrkdwn",
+                        "text" => "*Author :*"
+                    ]
+                ],
+                [
+                    "type" => "section",
+                    "text" => [
+                        "type" => "mrkdwn",
+                        "text" => "$author"
+                    ]
+                ],
+
+                [
+                    "type" => "divider"
+                ],
+                [
+                    "type" => "context",
+                    "elements" => [
+                        [
+                            "type" => "image",
+                            "image_url" => "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/WordPress_blue_logo.svg/1200px-WordPress_blue_logo.svg.png",
+                            "alt_text" => "Wordpress logo"
+                        ],
+                        [
+                            "type" => "plain_text",
+                            "text" => "Wordpress Plugin • " . date("F j, Y, G:i T", $timestamp)
+                        ]
+                    ]
+                ]
+            ]
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        Sender::Send($json_data, $this->webhookUrl);
     }
 }

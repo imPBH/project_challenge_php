@@ -75,6 +75,7 @@ class Sender
         $postAuthor = get_user_by("id", $postAuthorID);
         $postAuthorName = $postAuthor->display_name;
         $timestamp = date("c", strtotime("now"));
+        $timestampSlack = time();
 
         $title = "";
         $color = "";
@@ -101,5 +102,6 @@ class Sender
                 break;
         }
         $this->discord->PostUpdate($title, $color, $post, $postID, $postUrl, $postTitle, $postAuthorName, $timestamp);
+        $this->slack->PostUpdate($title, $color, $post, $postID, $postUrl, $postTitle, $postAuthorName, $timestampSlack);
     }
 }
