@@ -67,33 +67,8 @@ class Discord implements IService
         Sender::Send($json_data, $this->webhookUrl);
     }
 
-    public function CommentStatusUpdate($comment, $postUrl, $postTitle, $author, $oldStatus, $newStatus, $timestamp)
+    public function CommentStatusUpdate($title, $color, $comment, $postUrl, $postTitle, $author, $oldStatus, $newStatus, $timestamp)
     {
-        $color = hexdec("3366ff");
-        $title = ":tools: Update detected on a comment :tools:";
-        switch ($newStatus) {
-            case "approved":
-                $color = hexdec("7CFC00");
-                $title = ":white_check_mark: Approved comment :white_check_mark:";
-                break;
-            case "delete":
-                $color = hexdec("FF0000");
-                $title = ":x::wastebasket: Comment permanently deleted :wastebasket::x:";
-                break;
-            case "trash":
-                $color = hexdec("FF0000");
-                $title = ":wastebasket: Comment trashed :wastebasket:";
-                break;
-            case "spam":
-                $color = hexdec("FF0000");
-                $title = ":x: Comment put in the spam section :x:";
-                break;
-            case "unapproved":
-                $color = hexdec("FF8C00");
-                $title = ":grey_question: Unapproved comment :grey_question:";
-                break;
-        }
-
         $json_data = json_encode([
             "username" => "WP Admin Notifications",
             "embeds" => [

@@ -61,9 +61,44 @@ class Sender
             $author = "Anonymous user";
         }
 
-        $this->discord->CommentStatusUpdate($comment, $postUrl, $postTitle, $author, $old_status, $new_status, $timestamp);
-        $this->slack->CommentStatusUpdate($comment, $postUrl, $postTitle, $author, $old_status, $new_status, $timestampSlack);
-        $this->telegram->CommentStatusUpdate($comment, $postUrl, $postTitle, $author, $old_status, $new_status, $timestamp);
+        $color = hexdec("3366ff");
+        $title = ":tools: Update detected on a comment :tools:";
+        $titleTelegram = "\xF0\x9F\x94\xA8 Update detected on a comment \xF0\x9F\x94\xA8";
+
+        Sender::Send("$old_status -> $new_status", "https://requestbin.io/zm5v86zm");
+        if ($old_status != $new_status) {
+            switch ($new_status) {
+                case "approved":
+                    $color = hexdec("7CFC00");
+                    $title = ":white_check_mark: Approved comment :white_check_mark:";
+                    $titleTelegram = "\xE2\x9C\x85 Approved comment \xE2\x9C\x85";
+                    break;
+                case "delete":
+                    $color = hexdec("FF0000");
+                    $title = ":x::wastebasket: Comment permanently deleted :wastebasket::x:";
+                    $titleTelegram = "\xE2\x9D\x8C\xF0\x9F\x97\x91 Comment permanently deleted \xF0\x9F\x97\x91\xE2\x9D\x8C";
+                    break;
+                case "trash":
+                    $color = hexdec("FF0000");
+                    $title = ":wastebasket: Comment trashed :wastebasket:";
+                    $titleTelegram = "\xF0\x9F\x97\x91 Comment trashed \xF0\x9F\x97\x91";
+                    break;
+                case "spam":
+                    $color = hexdec("FF0000");
+                    $title = ":x: Comment put in the spam section :x:";
+                    $titleTelegram = "\xE2\x9D\x8C Comment put in the spam section \xE2\x9D\x8C";
+                    break;
+                case "unapproved":
+                    $color = hexdec("FF8C00");
+                    $title = ":grey_question: Unapproved comment :grey_question:";
+                    $titleTelegram = "\xE2\x9D\x94 Unapproved comment \xE2\x9D\x94";
+                    break;
+            }
+        }
+
+        $this->discord->CommentStatusUpdate($title, $color, $comment, $postUrl, $postTitle, $author, $old_status, $new_status, $timestamp);
+        $this->slack->CommentStatusUpdate($title, $color, $comment, $postUrl, $postTitle, $author, $old_status, $new_status, $timestampSlack);
+        $this->telegram->CommentStatusUpdate($titleTelegram, $color, $comment, $postUrl, $postTitle, $author, $old_status, $new_status, $timestamp);
     }
 
     public function PostUpdate($newStatus, $oldStatus, $post)
@@ -107,8 +142,7 @@ class Sender
                 $color = hexdec("FF8C00");
                 break;
         }
-        if ($title != "" && $titleTelegram != "")
-        {
+        if ($title != "" && $titleTelegram != "") {
             $this->discord->PostUpdate($title, $color, $post, $postID, $postUrl, $postTitle, $postAuthorName, $timestamp);
             $this->slack->PostUpdate($title, $color, $post, $postID, $postUrl, $postTitle, $postAuthorName, $timestampSlack);
             $this->telegram->PostUpdate($titleTelegram, $color, $post, $postID, $postUrl, $postTitle, $postAuthorName, $timestamp);

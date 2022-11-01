@@ -17,8 +17,17 @@ class Telegram implements IService
 
     public function NewComment($comment, $postUrl, $postTitle, $author, $timestamp)
     {
-        $text  = str_replace("!", "\!", "__*\xF0\x9F\x9A\xA8 New comment detected \xF0\x9F\x9A\xA8*__\n\n*Original Post:*\n[" . $postTitle . "](" . $postUrl . ")\n\n*Author :*\n" . $author . "\n\n*Comment :*\n" . $comment->comment_content);
-        $text = str_replace("=", "\=", $text);
+        $postTitle = str_replace(['_', '*', '[', ']', '(', ')', '~', '`', '>',
+            '#', '+', '-', '=', '|', '{', '}', '.', '!'], ['\_', '\*', '\[', '\]', '\(', '\)', '\~', '\`', '\>',
+            '\#', '\+', '\-', '\=', '\|', '\{', '\}', '\.', '\!'], $postTitle);
+
+        $author = str_replace(['_', '*', '[', ']', '(', ')', '~', '`', '>',
+            '#', '+', '-', '=', '|', '{', '}', '.', '!'], ['\_', '\*', '\[', '\]', '\(', '\)', '\~', '\`', '\>',
+            '\#', '\+', '\-', '\=', '\|', '\{', '\}', '\.', '\!'], $author);
+
+        $text = "__*\xF0\x9F\x9A\xA8 New comment detected \xF0\x9F\x9A\xA8*__\n\n*Original Post:*\n[" . $postTitle . "](" . $postUrl . ")\n\n*Author :*\n" . $author . "\n\n*Comment :*\n" . str_replace(['_', '*', '[', ']', '(', ')', '~', '`', '>',
+                '#', '+', '-', '=', '|', '{', '}', '.', '!'], ['\_', '\*', '\[', '\]', '\(', '\)', '\~', '\`', '\>',
+                '\#', '\+', '\-', '\=', '\|', '\{', '\}', '\.', '\!'], $comment->comment_content);
 
         $json_data = json_encode([
             "chat_id" => $this->channelId,
@@ -46,32 +55,22 @@ class Telegram implements IService
         Sender::Send($json_data, $this->webhookUrl);
     }
 
-    public function CommentStatusUpdate($comment, $postUrl, $postTitle, $author, $oldStatus, $newStatus, $timestamp)
+    public function CommentStatusUpdate($title, $color, $comment, $postUrl, $postTitle, $author, $oldStatus, $newStatus, $timestamp)
     {
-        $title = "\xF0\x9F\x94\xA8 Update detected on a comment \xF0\x9F\x94\xA8";
-        switch ($newStatus) {
-            case "approved":
-                $title = "\xE2\x9C\x85 Approved comment \xE2\x9C\x85";
-                break;
-            case "delete":
-                $title = "\xE2\x9D\x8C\xF0\x9F\x97\x91 Comment permanently deleted \xF0\x9F\x97\x91\xE2\x9D\x8C";
-                break;
-            case "trash":
-                $title = "\xF0\x9F\x97\x91 Comment trashed \xF0\x9F\x97\x91";
-                break;
-            case "spam":
-                $title = "\xE2\x9D\x8C Comment put in the spam section \xE2\x9D\x8C";
-                break;
-            case "unapproved":
-                $title = "\xE2\x9D\x94 Unapproved comment \xE2\x9D\x94";
-                break;
-        }
+        $postTitle = str_replace(['_', '*', '[', ']', '(', ')', '~', '`', '>',
+            '#', '+', '-', '=', '|', '{', '}', '.', '!'], ['\_', '\*', '\[', '\]', '\(', '\)', '\~', '\`', '\>',
+            '\#', '\+', '\-', '\=', '\|', '\{', '\}', '\.', '\!'], $postTitle);
 
-        $text = str_replace("!", "\!", "__*$title*__\n\n*Original Post:*\n[" . $postTitle . "](" . $postUrl . ")\n\n*Author :*\n" . $author . "\n\n*Comment :*\n" . $comment->comment_content . "\n\n*Old status :*\n$oldStatus\n\n*New status :*\n$newStatus");
-        $text = str_replace("=", "\=", $text);
+        $author = str_replace(['_', '*', '[', ']', '(', ')', '~', '`', '>',
+            '#', '+', '-', '=', '|', '{', '}', '.', '!'], ['\_', '\*', '\[', '\]', '\(', '\)', '\~', '\`', '\>',
+            '\#', '\+', '\-', '\=', '\|', '\{', '\}', '\.', '\!'], $author);
+
+        $text = "__*$title*__\n\n*Original Post:*\n[" . $postTitle . "](" . $postUrl . ")\n\n*Author :*\n" . $author . "\n\n*Comment :*\n" . str_replace(['_', '*', '[', ']', '(', ')', '~', '`', '>',
+                '#', '+', '-', '=', '|', '{', '}', '.', '!'], ['\_', '\*', '\[', '\]', '\(', '\)', '\~', '\`', '\>',
+                '\#', '\+', '\-', '\=', '\|', '\{', '\}', '\.', '\!'], $comment->comment_content) . "\n\n*Old status :*\n$oldStatus\n\n*New status :*\n$newStatus";
         $json_data = json_encode([
             "chat_id" => $this->channelId,
-            "text" =>  $text,
+            "text" => $text,
             "parse_mode" => "markdownv2",
             "reply_markup" => [
                 "inline_keyboard" => [
@@ -97,8 +96,16 @@ class Telegram implements IService
 
     public function PostUpdate($title, $color, $post, $postID, $postUrl, $postTitle, $author, $timestamp)
     {
-        $text = str_replace("!", "\!", "__*$title*__\n\n*Post:*\n[" . $postTitle . "](" . $postUrl . ")\n\n*Author :*\n" . $author);
-        $text = str_replace("=", "\=", $text);
+
+        $postTitle = str_replace(['_', '*', '[', ']', '(', ')', '~', '`', '>',
+            '#', '+', '-', '=', '|', '{', '}', '.', '!'], ['\_', '\*', '\[', '\]', '\(', '\)', '\~', '\`', '\>',
+            '\#', '\+', '\-', '\=', '\|', '\{', '\}', '\.', '\!'], $postTitle);
+
+        $author = str_replace(['_', '*', '[', ']', '(', ')', '~', '`', '>',
+            '#', '+', '-', '=', '|', '{', '}', '.', '!'], ['\_', '\*', '\[', '\]', '\(', '\)', '\~', '\`', '\>',
+            '\#', '\+', '\-', '\=', '\|', '\{', '\}', '\.', '\!'], $author);
+
+        $text = "__*$title*__\n\n*Post:*\n[" . $postTitle . "](" . $postUrl . ")\n\n*Author :*\n" . $author;
         $json_data = json_encode([
             "chat_id" => $this->channelId,
             "text" => $text,

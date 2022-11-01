@@ -126,27 +126,8 @@ class Slack implements IService
         Sender::Send($json_data, $this->webhookUrl);
     }
 
-    public function CommentStatusUpdate($comment, $postUrl, $postTitle, $author, $oldStatus, $newStatus, $timestamp)
+    public function CommentStatusUpdate($title, $color, $comment, $postUrl, $postTitle, $author, $oldStatus, $newStatus, $timestamp)
     {
-        $title = ":tools: Update detected on a comment :tools:";
-        switch ($newStatus) {
-            case "approved":
-                $title = ":white_check_mark: Approved comment :white_check_mark:";
-                break;
-            case "delete":
-                $title = ":x::wastebasket: Comment permanently deleted :wastebasket::x:";
-                break;
-            case "trash":
-                $title = ":wastebasket: Comment trashed :wastebasket:";
-                break;
-            case "spam":
-                $title = ":x: Comment put in the spam section :x:";
-                break;
-            case "unapproved":
-                $title = ":grey_question: Unapproved comment :grey_question:";
-                break;
-        }
-
         $json_data = json_encode([
             "blocks" => [
                 [
