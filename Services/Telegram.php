@@ -57,6 +57,10 @@ class Telegram implements IService
 
     public function CommentStatusUpdate($title, $color, $comment, $postUrl, $postTitle, $author, $oldStatus, $newStatus, $timestamp)
     {
+        $title = str_replace(['_', '*', '[', ']', '(', ')', '~', '`', '>',
+            '#', '+', '-', '=', '|', '{', '}', '.', '!'], ['\_', '\*', '\[', '\]', '\(', '\)', '\~', '\`', '\>',
+            '\#', '\+', '\-', '\=', '\|', '\{', '\}', '\.', '\!'], $title);
+
         $postTitle = str_replace(['_', '*', '[', ']', '(', ')', '~', '`', '>',
             '#', '+', '-', '=', '|', '{', '}', '.', '!'], ['\_', '\*', '\[', '\]', '\(', '\)', '\~', '\`', '\>',
             '\#', '\+', '\-', '\=', '\|', '\{', '\}', '\.', '\!'], $postTitle);
@@ -96,6 +100,9 @@ class Telegram implements IService
 
     public function PostUpdate($title, $color, $post, $postID, $postUrl, $postTitle, $author, $timestamp)
     {
+        $title = str_replace(['_', '*', '[', ']', '(', ')', '~', '`', '>',
+            '#', '+', '-', '=', '|', '{', '}', '.', '!'], ['\_', '\*', '\[', '\]', '\(', '\)', '\~', '\`', '\>',
+            '\#', '\+', '\-', '\=', '\|', '\{', '\}', '\.', '\!'], $title);
 
         $postTitle = str_replace(['_', '*', '[', ']', '(', ')', '~', '`', '>',
             '#', '+', '-', '=', '|', '{', '}', '.', '!'], ['\_', '\*', '\[', '\]', '\(', '\)', '\~', '\`', '\>',
